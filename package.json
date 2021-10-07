@@ -23,8 +23,8 @@
     "migration:create": "npm run build && npm run typeorm migration:create -- -n",
     "migration:run": "npm run build && npm run typeorm migration:run",
     "migration:revert": "npm run typeorm migration:revert",
-    "seed:config": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
-    "seed:run": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed:config": "npm run build && ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js config",
+    "seed:run": "npm run build && ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
