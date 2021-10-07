@@ -7,7 +7,12 @@ import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), PostsModule, UsersModule, CategoriesModule],
+  imports: [
+    TypeOrmModule.forRoot(),
+    PostsModule,
+    UsersModule,
+    CategoriesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

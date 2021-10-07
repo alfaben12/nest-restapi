@@ -30,7 +30,7 @@ export class PostMigration1633402577835 implements MigrationInterface {
           {
             name: 'isActive',
             type: 'boolean',
-            default: '1',
+            default: 1,
           },
           {
             name: 'description',
@@ -40,11 +40,13 @@ export class PostMigration1633402577835 implements MigrationInterface {
           },
           {
             name: 'createdAt',
-            type: 'datetime',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
           },
           {
             name: 'updatedAt',
-            type: 'datetime',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
           },
         ],
       }),

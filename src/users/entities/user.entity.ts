@@ -9,7 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,6 +23,9 @@ export class User {
 
   @Column({ type: 'text' })
   email: string;
+
+  @Column({ type: 'text' })
+  password: string;
 
   @CreateDateColumn({
     type: 'timestamp',

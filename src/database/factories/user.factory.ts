@@ -11,7 +11,6 @@ define(User, (faker: typeof Faker) => {
   user.name = `${firstName} ${lastName}`;
   user.email = faker.internet.email();
   user.uuid = faker.random.uuid();
-  user.createdAt = new Date();
-  user.updatedAt = new Date();
+  user.password = faker.internet.password();
   return user;
 });

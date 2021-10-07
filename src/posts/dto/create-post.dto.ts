@@ -8,6 +8,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 
 class TagDetailDto {
@@ -25,6 +26,9 @@ class TagDetailDto {
 export class CreatePostDto {
   @IsDefined()
   user: User;
+
+  @IsDefined()
+  category: Category;
 
   @IsDefined()
   @IsString()
