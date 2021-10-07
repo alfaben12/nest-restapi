@@ -34,4 +34,8 @@ export class UsersService {
     this.usersRepository.delete(id);
     return data;
   }
+
+  findBySignin(email: string, password: string): Promise<User> {
+    return this.usersRepository.findOne({ email, password });
+  }
 }
