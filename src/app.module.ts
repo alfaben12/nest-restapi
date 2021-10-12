@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { RoutesModule } from './routes/routes.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AccountsModule } from './accounts/accounts.module';
     CategoriesModule,
     AuthModule,
     AccountsModule,
+    RoutesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

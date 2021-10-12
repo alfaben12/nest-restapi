@@ -1,4 +1,5 @@
-import { Post } from 'src/posts/entities/post.entity';
+import { Category } from 'src/categories/entities/category.entity';
+import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
   Column,
@@ -6,11 +7,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Generated,
-  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
-@Entity('user')
-export class User {
+@Entity()
+export class Route {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,21 +19,17 @@ export class User {
   @Generated('uuid')
   uuid: string;
 
-  @Column({ length: 100 })
-  name: string;
+  @Column({ type: 'text' })
+  path: string;
 
   @Column({ type: 'text' })
-  email: string;
+  method: string;
 
-  @Column({ type: 'text' })
-  password: string;
+  @Column({ type: 'simple-array', default: [] })
+  role: string[];
 
-  @Column({
-    type: 'enum',
-    enum: ['ADMIN', 'OPERATION', 'TRAFFIC'],
-    default: 'ADMIN',
-  })
-  role: string;
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -46,7 +43,4 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
-
-  @OneToMany(() => Post, (post) => post.user)
-  posts: Post[];
 }
