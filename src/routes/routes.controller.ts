@@ -1,6 +1,7 @@
 import { Controller, Post, Request } from '@nestjs/common';
 import { RoutesService } from './routes.service';
 import { Request as ExpressRequest, Router } from 'express';
+import { CreateRouteDto } from './dto/create-route.dto';
 
 @Controller({ path: 'routes', version: '1' })
 export class RoutesController {
@@ -27,13 +28,13 @@ export class RoutesController {
 
         //   await this.routesService.updateActive(path, updateRouteDto);
         // } else {
-        //   const createRouteDto: CreateRouteDto = new CreateRouteDto();
-        //   createRouteDto.path = path;
-        //   createRouteDto.method = method;
-        //   createRouteDto.isActive = true;
-        //   createRouteDto.role = ['ADMIN', 'OPERATION'];
+          const createRouteDto: CreateRouteDto = new CreateRouteDto();
+          createRouteDto.path = path;
+          createRouteDto.method = method;
+          createRouteDto.isActive = true;
+          createRouteDto.role = ['ADMIN'];
 
-        //   this.routesService.create(createRouteDto);
+          this.routesService.create(createRouteDto);
         // }
 
         routes.push({

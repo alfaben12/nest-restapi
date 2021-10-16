@@ -6,7 +6,7 @@ define(User, (faker: typeof Faker) => {
   const gender = faker.random.number(1);
   const firstName = faker.name.firstName(gender);
   const lastName = faker.name.lastName(gender);
-  const roles = ['ADMIN', 'OPERATION', 'TRACFFIC'];
+  const roles = ['ADMIN', 'OPERATION', 'TRAFFIC'];
 
   const user = new User();
   user.name = `${firstName} ${lastName}`;
