@@ -1,4 +1,4 @@
-import { Controller, Post, Request } from '@nestjs/common';
+import { Controller, Get, Post, Request } from '@nestjs/common';
 import { RoutesService } from './routes.service';
 import { Request as ExpressRequest, Router } from 'express';
 import { CreateRouteDto } from './dto/create-route.dto';
@@ -33,9 +33,10 @@ export class RoutesController {
           createRouteDto.isActive = true;
           createRouteDto.role = ['ADMIN'];
 
-          this.routesService.create(createRouteDto);
+          await this.routesService.create(createRouteDto);
           newRouteArray.push(`${path} - ${method}`)
           countNewRoute++
+          console.log(countNewRoute)
         }
 
         const updateRouteDto: UpdateRouteDto = new UpdateRouteDto();
@@ -50,5 +51,10 @@ export class RoutesController {
       countNewRoute,
       newRouteArray
     };
+  }
+
+  @Get()
+  findAll() {
+    return this.routesService.findAll();
   }
 }

@@ -1,5 +1,5 @@
-import { Category } from 'src/categories/entities/category.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Category } from "src/categories/entities/category.entity";
+import { User } from "src/users/entities/user.entity";
 import {
   Entity,
   Column,
@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
   Generated,
   ManyToOne,
-} from 'typeorm';
+} from "typeorm";
 
 @Entity()
 export class Post {
@@ -16,13 +16,13 @@ export class Post {
   id: number;
 
   @Column()
-  @Generated('uuid')
+  @Generated("uuid")
   uuid: string;
 
   @Column({ length: 100 })
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: "text" })
   body: string;
 
   @Column({ nullable: true })
@@ -32,19 +32,19 @@ export class Post {
   isActive: boolean;
 
   @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+    onUpdate: "CURRENT_TIMESTAMP(6)",
   })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.posts)
+  @ManyToOne(() => User, (user) => user.posts, { eager: true })
   user: User | number;
 
   @ManyToOne(() => Category, (category) => category.posts)

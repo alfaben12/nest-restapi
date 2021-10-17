@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Type } from "class-transformer";
 import {
   IsArray,
   IsNotEmpty,
@@ -6,9 +6,9 @@ import {
   IsString,
   MinLength,
   ValidateNested,
-} from 'class-validator';
-import { Category } from 'src/categories/entities/category.entity';
-import { User } from 'src/users/entities/user.entity';
+} from "class-validator";
+import { Category } from "src/categories/entities/category.entity";
+import { User } from "src/users/entities/user.entity";
 
 class TagDetailDto {
   @IsNotEmpty()

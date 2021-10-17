@@ -13,7 +13,7 @@ export class RoutesService {
   ) {}
 
   findAll() {
-    return this.routesRepository.find({ select: ["path", "method"] });
+    return this.routesRepository.find({ select: ["path", "method", "role"], where: { isActive:true } });
   }
 
   create(createRouteDto: CreateRouteDto) {
