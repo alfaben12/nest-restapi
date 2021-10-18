@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { ArticlesModule } from "./posts/articles.module";
+import { ArticlesModule } from "./articles/articles.module";
 import { UsersModule } from "./users/users.module";
 import { CategoriesModule } from "./categories/categories.module";
 import { AuthModule } from "./auth/auth.module";

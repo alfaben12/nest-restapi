@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
@@ -14,7 +13,7 @@ import { CreateArticleDto } from "./dto/create-article.dto";
 import { UpdateArticleDto } from "./dto/update-article.dto";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 
-@Controller({ path: "posts", version: "1" })
+@Controller({ path: "articles", version: "1" })
 @UseGuards(JwtAuthGuard)
 export class ArticlesController {
   constructor(private readonly postsService: ArticlesService) {}

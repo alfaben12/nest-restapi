@@ -5,7 +5,6 @@ import { Repository } from "typeorm";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { Category } from "./entities/category.entity";
-import { User } from "src/users/entities/user.entity";
 import { deserialize } from "deserialize-json-api";
 import { Like } from "typeorm";
 import { UtilsService } from "src/utils/utils.service";
@@ -42,6 +41,7 @@ export class CategoriesService {
           },
         ],
         order: parseSorting,
+        relations: ["articles"],
       }
     );
 

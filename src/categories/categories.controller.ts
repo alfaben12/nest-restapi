@@ -12,7 +12,7 @@ import { CreateCategoryDto } from "./dto/create-category.dto";
 import JSONAPISerializer = require("json-api-serializer");
 import { User } from "src/users/entities/user.entity";
 import { Category } from "./entities/category.entity";
-import { Article } from "src/posts/entities/article.entity";
+import { Article } from "src/articles/entities/article.entity";
 
 @Controller({ path: "categories", version: "1" })
 export class CategoriesController {
@@ -85,6 +85,7 @@ export class CategoriesController {
     });
 
     const resultSerializer = Serializer.serialize("category", data);
+    return resultSerializer;
   }
 
   @Get(":id")

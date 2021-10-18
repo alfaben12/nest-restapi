@@ -44,9 +44,9 @@ export class Article {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.posts, { eager: true })
+  @ManyToOne(() => User, (user) => user.articles, { eager: true })
   user: User | number;
 
-  @ManyToOne(() => Category, (category) => category.posts)
+  @ManyToOne(() => Category, (category) => category.articles)
   category: Category | number;
 }
