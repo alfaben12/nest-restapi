@@ -24,8 +24,8 @@ export class Category {
   @Column({ type: "text" })
   description: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ default: 1 })
+  isActive: number;
 
   @CreateDateColumn({
     type: "timestamp",

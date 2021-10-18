@@ -108,8 +108,8 @@ export class CategoriesService {
 
     const resultSerializer = Serializer.serialize("category", data);
 
-    // const deserialize1 = deserialize(result);
-    return resultSerializer;
+    const deserialize1 = deserialize(resultSerializer);
+    return deserialize1;
   }
 
   findOne(id: number) {
