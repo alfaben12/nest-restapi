@@ -10,8 +10,8 @@ import {
   ManyToOne,
 } from "typeorm";
 
-@Entity()
-export class Post {
+@Entity("article")
+export class Article {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -22,7 +22,7 @@ class TagDetailDto {
   description: string;
 }
 
-export class CreatePostDto {
+export class CreateArticleDto {
   @IsNotEmpty()
   user: User;
 

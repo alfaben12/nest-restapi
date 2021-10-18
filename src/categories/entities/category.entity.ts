@@ -1,4 +1,4 @@
-import { Post } from "src/posts/entities/post.entity";
+import { Article } from "src/posts/entities/article.entity";
 import {
   Entity,
   Column,
@@ -40,6 +40,6 @@ export class Category {
   })
   updatedAt: Date;
 
-  @OneToMany(() => Post, (post) => post.category, { eager: true })
-  posts: Post[];
+  @OneToMany(() => Article, (article) => article.category, { eager: true })
+  posts: Article[];
 }

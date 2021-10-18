@@ -5,10 +5,10 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class AddForeignPostToUser1633404103690 implements MigrationInterface {
+export class AddForeignArticleToUser1633404103690 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
-      'post',
+      'article',
       new TableColumn({
         name: 'userId',
         type: 'int',
@@ -16,23 +16,23 @@ export class AddForeignPostToUser1633404103690 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'post',
+      'article',
       new TableForeignKey({
         columnNames: ['userId'],
         referencedColumnNames: ['id'],
         referencedTableName: 'user',
         onDelete: 'CASCADE',
-        name: 'PostUserIdForeign',
+        name: 'ArticleUserIdForeign',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const table = await queryRunner.getTable('post');
+    const table = await queryRunner.getTable('article');
     const foreignKey = table.foreignKeys.find(
       (fk) => fk.columnNames.indexOf('userId') !== -1,
     );
-    await queryRunner.dropForeignKey('post', foreignKey);
-    queryRunner.dropColumn('post', 'userId');
+    await queryRunner.dropForeignKey('article', foreignKey);
+    queryRunner.dropColumn('article', 'userId');
   }
 }
