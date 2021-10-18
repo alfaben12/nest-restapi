@@ -8,11 +8,15 @@ import { Category } from "./entities/category.entity";
 import JSONAPISerializer = require("json-api-serializer");
 import { User } from "src/users/entities/user.entity";
 import { Post } from "src/posts/entities/post.entity";
-// import { Serializer } from "jsonapi-serializer";
+import { deserialize } from "deserialize-json-api";
+import { Like } from "typeorm";
+import { UtilsService } from "src/utils/utils.service";
 
 @Injectable()
 export class CategoriesService {
   constructor(
+    private readonly utilsService: UtilsService,
+
     @InjectRepository(Category)
     private categoriesRepository: Repository<Category>
   ) {}
@@ -21,15 +25,30 @@ export class CategoriesService {
     return "This action adds a new category";
   }
 
-  async findAll() {
-    const results = await paginate<Category>(this.categoriesRepository, {
-      limit: 2,
-      page: 1,
-      route: "/categories",
-    });
+  async findAll(page: string, limit: string, sort: string, keyword: string) {
+    const parseSorting = this.utilsService.sortJsonApiParse(sort);
+    const result = await paginate<Category>(
+      this.categoriesRepository,
+      {
+        limit,
+        page,
+        route: "/categories",
+      },
+      {
+        where: [
+          {
+            name: Like(`%${keyword}%`),
+          },
+          {
+            description: Like(`%${keyword}%`),
+          },
+        ],
+        order: parseSorting,
+      }
+    );
 
     const Serializer = new JSONAPISerializer();
-    const data = results.items;
+    const data = result.items;
     Serializer.register("category", {
       id: "id", // The attributes to use as the reference. Default = 'id'.
       blacklist: ["updated"], // An array of blacklisted attributes. Default = []
@@ -40,37 +59,38 @@ export class CategoriesService {
           // Can be a function or a string value ex: { self: '/articles/1'}
           return "/categories/" + id;
         },
+        ...result.links,
       },
       relationships: {
         // An object defining some relationships.
         posts: {
           type: "post",
-          deserializer: (data) => data,
         },
       },
       topLevelMeta: function (data: string | any[], extraData: { count: any }) {
         // An object or a function that describes top level meta.
-        return { ...results.meta, ...results.links };
+        return { ...result.meta };
       },
       topLevelLinks: {
         // An object or a function that describes top level links.
         self: "/categories", // Can be a function (with extra data argument) or a string value
+        ...result.links,
       },
     });
 
     // Register 'post' type
     Serializer.register("post", {
       id: "id",
+      links: {
+        self: function (post: Post) {
+          const { id } = post;
+          return "/posts/" + id;
+        },
+      },
       relationships: {
         // An object defining some relationships.
         user: {
           type: "user",
-          links: {
-            self: function (post: Post) {
-              const { id } = post.user as User;
-              return "/users/" + id;
-            },
-          },
         },
       },
     });
@@ -78,12 +98,18 @@ export class CategoriesService {
     // Register 'post' type
     Serializer.register("user", {
       id: "id",
+      links: {
+        self: function (user: User) {
+          const { id } = user;
+          return "/users/" + id;
+        },
+      },
     });
 
-    const result = Serializer.serialize("category", data, { count: 2 });
+    const resultSerializer = Serializer.serialize("category", data);
 
-    // const deserialize = Serializer.deserialize("category", result);
-    return deserialize;
+    // const deserialize1 = deserialize(result);
+    return resultSerializer;
   }
 
   findOne(id: number) {

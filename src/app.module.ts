@@ -8,6 +8,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { RoutesModule } from './routes/routes.module';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RoutesModule } from './routes/routes.module';
     AuthModule,
     AccountsModule,
     RoutesModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
