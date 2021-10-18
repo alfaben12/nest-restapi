@@ -19,7 +19,7 @@ export class CategoriesService {
   ) {}
 
   create(createCategoryDto: CreateCategoryDto) {
-    return "This action adds a new category";
+    return this.categoriesRepository.save(createCategoryDto);
   }
 
   async findAll(page: string, limit: string, sort: string, keyword: string) {
@@ -46,12 +46,11 @@ export class CategoriesService {
     );
 
     result["sort"] = parseSorting;
-
     return result;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    return this.categoriesRepository.findOne(id, { relations: ["articles"] });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
@@ -59,6 +58,8 @@ export class CategoriesService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} category`;
+    const data = this.categoriesRepository.findOne(id);
+    this.categoriesRepository.delete(id);
+    return data;
   }
 }

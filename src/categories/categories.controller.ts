@@ -19,8 +19,25 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    const result = await this.categoriesService.create(createCategoryDto);
+
+    const Serializer = new JSONAPISerializer();
+    const data = result;
+    Serializer.register("category", {
+      id: "id",
+      links: {
+        self: function (data) {
+          const { id } = data as Category;
+          return "/categories/" + id;
+        },
+      },
+      topLevelLinks: {
+        self: "/categories",
+      },
+    });
+    const resultSerializer = Serializer.serialize("category", data);
+    return resultSerializer;
   }
 
   @Get()
@@ -89,12 +106,110 @@ export class CategoriesController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.categoriesService.findOne(+id);
+  async findOne(@Param("id") id: string) {
+    const result = await this.categoriesService.findOne(+id);
+
+    const Serializer = new JSONAPISerializer();
+    const data = result;
+    Serializer.register("category", {
+      id: "id",
+      links: {
+        self: function (data) {
+          const { id } = data as Category;
+          return "/categories/" + id;
+        },
+      },
+      relationships: {
+        articles: {
+          type: "article",
+        },
+      },
+      topLevelLinks: {
+        self: "/categories",
+      },
+    });
+
+    Serializer.register("article", {
+      id: "id",
+      links: {
+        self: function (article: Article) {
+          const { id } = article;
+          return "/articles/" + id;
+        },
+      },
+      relationships: {
+        user: {
+          type: "user",
+        },
+      },
+    });
+
+    // Register 'article' type
+    Serializer.register("user", {
+      id: "id",
+      links: {
+        self: function (user: User) {
+          const { id } = user;
+          return "/users/" + id;
+        },
+      },
+    });
+
+    const resultSerializer = Serializer.serialize("category", data);
+    return resultSerializer;
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.categoriesService.remove(+id);
+  async remove(@Param("id") id: string) {
+    const result = await this.categoriesService.remove(+id);
+
+    const Serializer = new JSONAPISerializer();
+    const data = result;
+    Serializer.register("category", {
+      id: "id",
+      links: {
+        self: function (data) {
+          const { id } = data as Category;
+          return "/categories/" + id;
+        },
+      },
+      relationships: {
+        articles: {
+          type: "article",
+        },
+      },
+      topLevelLinks: {
+        self: "/categories",
+      },
+    });
+
+    Serializer.register("article", {
+      id: "id",
+      links: {
+        self: function (article: Article) {
+          const { id } = article;
+          return "/articles/" + id;
+        },
+      },
+      relationships: {
+        user: {
+          type: "user",
+        },
+      },
+    });
+
+    // Register 'article' type
+    Serializer.register("user", {
+      id: "id",
+      links: {
+        self: function (user: User) {
+          const { id } = user;
+          return "/users/" + id;
+        },
+      },
+    });
+
+    const resultSerializer = Serializer.serialize("category", data);
+    return resultSerializer;
   }
 }

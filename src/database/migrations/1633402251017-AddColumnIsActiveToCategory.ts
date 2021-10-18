@@ -1,19 +1,20 @@
-import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
+import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 
 export class AddColumnIsActiveToCategory1633402251017
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
-      'category',
+      "category",
       new TableColumn({
-        name: 'isActive',
-        type: 'boolean',
-      }),
+        name: "isActive",
+        type: "boolean",
+        default: 1,
+      })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.dropColumn('category', 'isActive');
+    queryRunner.dropColumn("category", "isActive");
   }
 }
