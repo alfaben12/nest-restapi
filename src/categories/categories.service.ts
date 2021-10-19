@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UseGuards } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { paginate } from "nestjs-typeorm-paginate";
 import { Repository } from "typeorm";
@@ -8,8 +8,11 @@ import { Category } from "./entities/category.entity";
 import { deserialize } from "deserialize-json-api";
 import { Like } from "typeorm";
 import { UtilsService } from "src/utils/utils.service";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
 
 @Injectable()
+@UseGuards(JwtAuthGuard)
 export class CategoriesService {
   constructor(
     private readonly utilsService: UtilsService,
@@ -58,7 +61,9 @@ export class CategoriesService {
   }
 
   remove(id: number) {
-    const data = this.categoriesRepository.findOne(id);
+    const data = this.categoriesRepository.findOne(id, {
+      relations: ["articles"],
+    });
     this.categoriesRepository.delete(id);
     return data;
   }

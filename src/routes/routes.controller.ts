@@ -1,19 +1,19 @@
-import { Controller, Get, Post, Request } from '@nestjs/common';
-import { RoutesService } from './routes.service';
-import { Request as ExpressRequest, Router } from 'express';
-import { CreateRouteDto } from './dto/create-route.dto';
-import { UpdateRouteDto } from './dto/update-route.dto';
+import { Controller, Get, Post, Request } from "@nestjs/common";
+import { RoutesService } from "./routes.service";
+import { Request as ExpressRequest, Router } from "express";
+import { CreateRouteDto } from "./dto/create-route.dto";
+import { UpdateRouteDto } from "./dto/update-route.dto";
 
-@Controller({ path: 'routes', version: '1' })
+@Controller({ path: "routes", version: "1" })
 export class RoutesController {
   constructor(private readonly routesService: RoutesService) {}
 
-  @Post('sync')
+  @Post("sync")
   async sync(@Request() req: ExpressRequest) {
     const router = req.app._router as Router;
 
-    let countNewRoute: number = 0;
-    let newRouteArray: string[] = [];
+    let countNewRoute = 0;
+    const newRouteArray: string[] = [];
 
     // NON ACTIVE ALLL ROUTES
     await this.routesService.updateNonActiveAll();
@@ -21,22 +21,23 @@ export class RoutesController {
       if (layer.route) {
         const path = layer.route?.path;
         const method = layer.route?.stack[0].method;
-        const checkAlreadyExist: boolean = await this.routesService.findOne(
+        const checkAlreadyExist: boolean = (await this.routesService.findOne(
           path,
-          method,
-        ) ? true : false;
+          method
+        ))
+          ? true
+          : false;
 
         if (!checkAlreadyExist) {
           const createRouteDto: CreateRouteDto = new CreateRouteDto();
           createRouteDto.path = path;
           createRouteDto.method = method;
           createRouteDto.isActive = true;
-          createRouteDto.role = ['ADMIN'];
+          createRouteDto.role = ["ADMIN"];
 
           await this.routesService.create(createRouteDto);
-          newRouteArray.push(`${path} - ${method}`)
-          countNewRoute++
-          console.log(countNewRoute)
+          newRouteArray.push(`${path} - ${method}`);
+          countNewRoute++;
         }
 
         const updateRouteDto: UpdateRouteDto = new UpdateRouteDto();
@@ -49,7 +50,7 @@ export class RoutesController {
 
     return {
       countNewRoute,
-      newRouteArray
+      newRouteArray,
     };
   }
 

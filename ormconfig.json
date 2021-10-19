@@ -1,21 +1,20 @@
 {
-    "type": "mysql",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "username": "root",
-    "password": "alfaben12",
-    "database": "nest-js",
-    "entities": ["dist/**/*.entity.js"],
-    "synchronize": false,
-    "migrationsTableName": "migrations",
-    "migrations": ["dist/**/migrations/*{.ts,.js}"],
-    "seeds": ["dist/**/seeds/*.js"],
-    "factories": ["dist/**/factories/*.js"],
-    "autoLoadEntities": true,
-    "cli": {
-        "migrationsDir": "src/database/migrations",
-        "factoriesDir": "src/database/factories",
-        "seedsDir": "src/database/seeds"
-    }
+  "type": "mysql",
+  "host": "127.0.0.1",
+  "port": 3306,
+  "username": "root",
+  "password": "toor",
+  "database": "nestjs",
+  "entities": ["dist/**/*.entity.js"],
+  "synchronize": false,
+  "migrationsTableName": "migrations",
+  "migrations": ["dist/**/migrations/*{.ts,.js}"],
+  "seeds": ["dist/**/seeds/*.js"],
+  "factories": ["dist/**/factories/*.js"],
+  "autoLoadEntities": true,
+  "cli": {
+    "migrationsDir": "src/database/migrations",
+    "factoriesDir": "src/database/factories",
+    "seedsDir": "src/database/seeds"
   }
-  
+}
