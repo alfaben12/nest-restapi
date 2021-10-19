@@ -3,14 +3,12 @@ import {
   ExecutionContext,
   UnauthorizedException,
   CanActivate,
-  Inject,
+  HttpStatus,
 } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { AuthGuard } from "@nestjs/passport";
-import { ExtractJwt } from "passport-jwt";
 import { Observable } from "rxjs";
 import { RoutesService } from "src/routes/routes.service";
 import { UsersService } from "src/users/users.service";
+import JSONAPISerializer = require("json-api-serializer");
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -43,6 +41,9 @@ export class RolesGuard implements CanActivate {
       return true;
     } else {
       throw new UnauthorizedException();
+
+      // const Serializer = new JSONAPISerializer();
+      // Serializer.serializeError(error);
     }
   }
 }

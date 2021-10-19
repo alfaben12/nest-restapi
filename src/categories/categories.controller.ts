@@ -6,6 +6,7 @@ import {
   Delete,
   Query,
   Post,
+  Put,
 } from "@nestjs/common";
 import { CategoriesService } from "./categories.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
@@ -13,6 +14,7 @@ import JSONAPISerializer = require("json-api-serializer");
 import { User } from "src/users/entities/user.entity";
 import { Category } from "./entities/category.entity";
 import { Article } from "src/articles/entities/article.entity";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 @Controller({ path: "categories", version: "1" })
 export class CategoriesController {
@@ -108,6 +110,63 @@ export class CategoriesController {
   @Get(":id")
   async findOne(@Param("id") id: string) {
     const result = await this.categoriesService.findOne(+id);
+
+    const Serializer = new JSONAPISerializer();
+    const data = result;
+    Serializer.register("category", {
+      id: "id",
+      links: {
+        self: function (data) {
+          const { id } = data as Category;
+          return "/categories/" + id;
+        },
+      },
+      relationships: {
+        articles: {
+          type: "article",
+        },
+      },
+      topLevelLinks: {
+        self: "/categories",
+      },
+    });
+
+    Serializer.register("article", {
+      id: "id",
+      links: {
+        self: function (article: Article) {
+          const { id } = article;
+          return "/articles/" + id;
+        },
+      },
+      relationships: {
+        user: {
+          type: "user",
+        },
+      },
+    });
+
+    // Register 'article' type
+    Serializer.register("user", {
+      id: "id",
+      links: {
+        self: function (user: User) {
+          const { id } = user;
+          return "/users/" + id;
+        },
+      },
+    });
+
+    const resultSerializer = Serializer.serialize("category", data);
+    return resultSerializer;
+  }
+
+  @Put(":id")
+  async update(
+    @Param("id") id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto
+  ) {
+    const result = await this.categoriesService.update(+id, updateCategoryDto);
 
     const Serializer = new JSONAPISerializer();
     const data = result;

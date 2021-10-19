@@ -21,11 +21,16 @@ export class CategoriesService {
     private categoriesRepository: Repository<Category>
   ) {}
 
-  create(createCategoryDto: CreateCategoryDto) {
+  create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     return this.categoriesRepository.save(createCategoryDto);
   }
 
-  async findAll(page: string, limit: string, sort: string, keyword: string) {
+  async findAll(
+    page: string,
+    limit: string,
+    sort: string,
+    keyword: string
+  ): Promise<any> {
     const parseSorting = this.utilsService.sortJsonApiParse(sort);
     const result = await paginate<Category>(
       this.categoriesRepository,
@@ -52,15 +57,21 @@ export class CategoriesService {
     return result;
   }
 
-  findOne(id: number) {
+  findOne(id: number): Promise<Category> {
     return this.categoriesRepository.findOne(id, { relations: ["articles"] });
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(
+    id: number,
+    updateCategoryDto: UpdateCategoryDto
+  ): Promise<Category> {
+    await this.categoriesRepository.update(id, updateCategoryDto);
+    return await this.categoriesRepository.findOne(id, {
+      relations: ["articles"],
+    });
   }
 
-  remove(id: number) {
+  remove(id: number): Promise<Category> {
     const data = this.categoriesRepository.findOne(id, {
       relations: ["articles"],
     });
