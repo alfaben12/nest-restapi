@@ -1,4 +1,12 @@
-import { Controller, Post, UseGuards, Request, Get } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Get,
+  HttpException,
+  HttpStatus,
+} from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Body } from "@nestjs/common";
 import { SigninDto } from "./dto/signin.dto";
@@ -11,7 +19,18 @@ export class AuthController {
 
   @Post("signin")
   async login(@Body() signinDto: SigninDto) {
-    return this.authService.signin(signinDto);
+    const result = this.authService.signin(signinDto);
+
+    if (!result) {
+      throw new HttpException(
+        {
+          message: ["Akun tidak ditemukan"],
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    return result;
   }
 
   @Get("profile")

@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   CanActivate,
   HttpStatus,
+  HttpException,
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { RoutesService } from "src/routes/routes.service";
@@ -32,18 +33,29 @@ export class RolesGuard implements CanActivate {
     const path = request.route?.path;
     const method = request.route?.stack[0].method;
     const route = await this.routesService.findOne(path, method);
+
     if (!route) {
-      throw new UnauthorizedException();
+      throw new HttpException(
+        {
+          detail: ["Silahkan sinkronasi link pada aplikasi"],
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
 
     const isAllowAccess: boolean = route.role.includes(userRole);
     if (isAllowAccess) {
       return true;
     } else {
-      throw new UnauthorizedException();
-
-      // const Serializer = new JSONAPISerializer();
-      // Serializer.serializeError(error);
+      throw new HttpException(
+        {
+          message: [
+            "Akses ditolak",
+            `Role yang diberi akses ${route.role.toString()}`,
+          ],
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }

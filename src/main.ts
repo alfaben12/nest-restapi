@@ -1,6 +1,6 @@
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
-import { AllExceptionsFilter } from "./all-exceptions.filter";
+import { AllExceptionsFilter } from "./filters/all-exceptions.filter";
 import { AppModule } from "./app.module";
 import { RolesGuard } from "./auth/guards/roles.guard";
 

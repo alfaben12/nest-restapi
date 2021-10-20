@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AccountsService } from "src/accounts/accounts.service";
 import { User } from "src/users/entities/user.entity";
@@ -16,6 +16,10 @@ export class AuthService {
       signinDto.email,
       signinDto.password
     );
+
+    if (!account) {
+      return false;
+    }
 
     const payload = { sub: account.id, name: account.name };
     return {
