@@ -12,6 +12,7 @@ import { Body } from "@nestjs/common";
 import { SigninDto } from "./dto/signin.dto";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { RolesGuard } from "./guards/roles.guard";
+import JSONAPISerializer = require("json-api-serializer");
 
 @Controller({ path: "auth", version: "1" })
 export class AuthController {
@@ -19,23 +20,30 @@ export class AuthController {
 
   @Post("signin")
   async login(@Body() signinDto: SigninDto) {
-    const result = this.authService.signin(signinDto);
+    const result = await this.authService.signin(signinDto);
 
     if (!result) {
       throw new HttpException(
         {
+          code: "-1000C",
           message: ["Akun tidak ditemukan"],
         },
         HttpStatus.NOT_FOUND
       );
     }
 
-    return result;
-  }
+    const data = result.account;
+    const Serializer = new JSONAPISerializer();
+    Serializer.register("account", {
+      id: "id",
+      links: {
+        self: function (user) {
+          return `/users/${user.id}`;
+        },
+      },
+    });
 
-  @Get("profile")
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  getProfile(@Request() req) {
-    return req.user;
+    const resultSerializer = Serializer.serialize("account", data);
+    return resultSerializer;
   }
 }

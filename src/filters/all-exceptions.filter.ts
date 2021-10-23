@@ -33,53 +33,68 @@ export class AllExceptionsFilter implements ExceptionFilter {
         about: request.url,
       },
       code: null,
-      statusCode: status,
+      status,
       title,
       detail: ["Server sedang bermasalah"],
       meta: {
         time: new Date().getTime(),
         user,
+        ref: null,
+        log: null,
       },
     };
 
+    const frontendUrlDocumentation =
+      "http://dev.elnusapetrofin.io/docs/errors/code/";
     if (isErrorFromController) {
       // ERROR FROM CONTROLLER
       const errorFromController =
         exception instanceof HttpException ? exception.getResponse() : "";
+      const code = errorFromController["code"] ?? "-1000A";
+
       responseFinal = {
         id: errorFromController["id"] ?? null,
         links: {
-          about: request.url,
+          about: `${frontendUrlDocumentation}${code}`,
         },
-        code: errorFromController["code"] ?? null,
-        statusCode: status,
+        code,
+        status,
         title,
         detail: errorFromController["message"],
         meta: {
           time: new Date().getTime(),
           user,
+          ref: "From controller error",
+          log: JSON.stringify(exception),
         },
       };
+      const Serializer = new JSONAPISerializer();
+      const errorSerialize = Serializer.serializeError(responseFinal);
+      response.status(status).json(errorSerialize);
     } else {
-      // OTHER ERROR
-      responseFinal = {
-        id: 0,
-        links: {
-          about: request.url,
-        },
-        code: null,
-        statusCode: status,
-        title,
-        detail: [exception["message"]],
-        meta: {
-          time: new Date().getTime(),
-          user,
-        },
-      };
+      console.log(exception);
     }
 
-    const Serializer = new JSONAPISerializer();
-    const errorSerialize = Serializer.serializeError(responseFinal);
-    response.status(status).json(errorSerialize);
+    //  else {
+    //   // OTHER ERROR
+    //   const code = exception["code"] ?? "-9000Z";
+
+    //   responseFinal = {
+    //     id: exception["id"] ?? null,
+    //     links: {
+    //       about: `${frontendUrlDocumentation}${code}`,
+    //     },
+    //     code,
+    //     status,
+    //     title,
+    //     detail: exception["message"],
+    //     meta: {
+    //       time: new Date().getTime(),
+    //       user,
+    //       ref: "From other error",
+    //       log: JSON.stringify(exception),
+    //     },
+    //   };
+    // }
   }
 }

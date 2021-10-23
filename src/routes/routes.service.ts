@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { getConnection, getManager, getRepository, Repository } from "typeorm";
+import { getConnection, Repository } from "typeorm";
 import { CreateRouteDto } from "./dto/create-route.dto";
 import { UpdateRouteDto } from "./dto/update-route.dto";
 import { Route } from "./entities/route.entity";
@@ -13,7 +13,10 @@ export class RoutesService {
   ) {}
 
   findAll() {
-    return this.routesRepository.find({ select: ["path", "method", "role"], where: { isActive:true } });
+    return this.routesRepository.find({
+      select: ["path", "method", "role"],
+      where: { isActive: true },
+    });
   }
 
   create(createRouteDto: CreateRouteDto) {
@@ -24,7 +27,7 @@ export class RoutesService {
     return this.routesRepository.findOne({ path, method });
   }
 
-  async updateNonActiveAll(): Promise<Boolean> {
+  async updateNonActiveAll(): Promise<boolean> {
     return (await getConnection()
       .createQueryBuilder()
       .update(Route)

@@ -29,8 +29,8 @@ export class CategoriesController {
     Serializer.register("category", {
       id: "id",
       links: {
-        self: function (data) {
-          const { id } = data as Category;
+        self: function (data: Category) {
+          const { id } = data;
           return "/categories/" + id;
         },
       },
@@ -57,8 +57,8 @@ export class CategoriesController {
     Serializer.register("category", {
       id: "id",
       links: {
-        self: function (data) {
-          const { id } = data as Category;
+        self: function (data: Category) {
+          const { id } = data;
           return "/categories/" + id;
         },
         ...result.links,
@@ -80,8 +80,8 @@ export class CategoriesController {
     Serializer.register("article", {
       id: "id",
       links: {
-        self: function (article: Article) {
-          const { id } = article;
+        self: function (data: Article) {
+          const { id } = data;
           return "/articles/" + id;
         },
       },
@@ -92,12 +92,11 @@ export class CategoriesController {
       },
     });
 
-    // Register 'article' type
     Serializer.register("user", {
       id: "id",
       links: {
-        self: function (user: User) {
-          const { id } = user;
+        self: function (data: User) {
+          const { id } = data;
           return "/users/" + id;
         },
       },
@@ -116,8 +115,8 @@ export class CategoriesController {
     Serializer.register("category", {
       id: "id",
       links: {
-        self: function (data) {
-          const { id } = data as Category;
+        self: function (data: Category) {
+          const { id } = data;
           return "/categories/" + id;
         },
       },
@@ -134,8 +133,8 @@ export class CategoriesController {
     Serializer.register("article", {
       id: "id",
       links: {
-        self: function (article: Article) {
-          const { id } = article;
+        self: function (data: Article) {
+          const { id } = data;
           return "/articles/" + id;
         },
       },
@@ -146,12 +145,11 @@ export class CategoriesController {
       },
     });
 
-    // Register 'article' type
     Serializer.register("user", {
       id: "id",
       links: {
-        self: function (user: User) {
-          const { id } = user;
+        self: function (data: User) {
+          const { id } = data;
           return "/users/" + id;
         },
       },
@@ -173,8 +171,8 @@ export class CategoriesController {
     Serializer.register("category", {
       id: "id",
       links: {
-        self: function (data) {
-          const { id } = data as Category;
+        self: function (data: Category) {
+          const { id } = data;
           return "/categories/" + id;
         },
       },
@@ -191,8 +189,8 @@ export class CategoriesController {
     Serializer.register("article", {
       id: "id",
       links: {
-        self: function (article: Article) {
-          const { id } = article;
+        self: function (data: Article) {
+          const { id } = data;
           return "/articles/" + id;
         },
       },
@@ -203,12 +201,11 @@ export class CategoriesController {
       },
     });
 
-    // Register 'article' type
     Serializer.register("user", {
       id: "id",
       links: {
-        self: function (user: User) {
-          const { id } = user;
+        self: function (data: User) {
+          const { id } = data;
           return "/users/" + id;
         },
       },
@@ -227,8 +224,8 @@ export class CategoriesController {
     Serializer.register("category", {
       id: "id",
       links: {
-        self: function (data) {
-          const { id } = data as Category;
+        self: function (data: Category) {
+          const { id } = data;
           return "/categories/" + id;
         },
       },
@@ -245,8 +242,8 @@ export class CategoriesController {
     Serializer.register("article", {
       id: "id",
       links: {
-        self: function (article: Article) {
-          const { id } = article;
+        self: function (data: Article) {
+          const { id } = data;
           return "/articles/" + id;
         },
       },
@@ -257,12 +254,11 @@ export class CategoriesController {
       },
     });
 
-    // Register 'article' type
     Serializer.register("user", {
       id: "id",
       links: {
-        self: function (user: User) {
-          const { id } = user;
+        self: function (data: User) {
+          const { id } = data;
           return "/users/" + id;
         },
       },

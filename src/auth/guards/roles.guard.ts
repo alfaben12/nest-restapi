@@ -37,7 +37,8 @@ export class RolesGuard implements CanActivate {
     if (!route) {
       throw new HttpException(
         {
-          detail: ["Silahkan sinkronasi link pada aplikasi"],
+          code: "-1000B",
+          message: ["Silahkan sinkronasi link pada aplikasi"],
         },
         HttpStatus.INTERNAL_SERVER_ERROR
       );

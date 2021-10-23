@@ -21,8 +21,11 @@ export class CategoriesService {
     private categoriesRepository: Repository<Category>
   ) {}
 
-  create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    return this.categoriesRepository.save(createCategoryDto);
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    const created = await this.categoriesRepository.save(createCategoryDto);
+    const result = await this.categoriesRepository.findOne(created.id);
+
+    return result;
   }
 
   async findAll(
@@ -71,11 +74,11 @@ export class CategoriesService {
     });
   }
 
-  remove(id: number): Promise<Category> {
-    const data = this.categoriesRepository.findOne(id, {
+  async remove(id: number): Promise<Category> {
+    const result = await this.categoriesRepository.findOne(id, {
       relations: ["articles"],
     });
     this.categoriesRepository.delete(id);
-    return data;
+    return result;
   }
 }
