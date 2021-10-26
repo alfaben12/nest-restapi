@@ -23,9 +23,9 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const created = await this.categoriesRepository.save(createCategoryDto);
-    const result = await this.categoriesRepository.findOne(created.id);
-
-    return result;
+    return this.categoriesRepository.findOne(created.id, {
+      relations: ["articles"],
+    });
   }
 
   async findAll(

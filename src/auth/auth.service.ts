@@ -22,7 +22,7 @@ export class AuthService {
     }
 
     const payload = { sub: account.id, name: account.name };
-    account["access_token"] = this.jwtService.sign(payload);
+    account["accessToken"] = this.jwtService.sign(payload);
     return {
       account,
     };

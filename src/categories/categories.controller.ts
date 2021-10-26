@@ -7,6 +7,7 @@ import {
   Query,
   Post,
   Put,
+  UseGuards,
 } from "@nestjs/common";
 import { CategoriesService } from "./categories.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
@@ -15,8 +16,11 @@ import { User } from "src/users/entities/user.entity";
 import { Category } from "./entities/category.entity";
 import { Article } from "src/articles/entities/article.entity";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
 
 @Controller({ path: "categories", version: "1" })
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -32,6 +36,11 @@ export class CategoriesController {
         self: function (data: Category) {
           const { id } = data;
           return "/categories/" + id;
+        },
+      },
+      relationships: {
+        articles: {
+          type: "article",
         },
       },
       topLevelLinks: {

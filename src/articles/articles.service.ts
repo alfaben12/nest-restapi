@@ -18,11 +18,9 @@ export class ArticlesService {
 
   async create(createArticleDto: CreateArticleDto) {
     const created = await this.articlesRepository.save(createArticleDto);
-    const result = await this.articlesRepository.findOne(created.id, {
+    return await this.articlesRepository.findOne(created.id, {
       relations: ["category", "user"],
     });
-
-    return result;
   }
 
   async findAll(
